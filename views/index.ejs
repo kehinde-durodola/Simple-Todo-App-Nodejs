@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Todo !</h1>
+    <form style="margin-bottom: 15px; display: inline;"
+        action="<%= isEditing ? `/todo/update/${editingTodo.index}` : '/todo' %>" method="post">
+        <input value="<%= isEditing ? editingTodo.title : "" %>" type="text" name="title" placeholder="Title">
+        <input value="<%=isEditing ? editingTodo.text : "" %>" type=" text" name="text" placeholder="Enter text">
+        <button type="submit">
+            <%= isEditing ? "Updatetodo" : "Addtodo" %>
+        </button>
+    </form>
+    <% if (isEditing) { %>
+        <form style="display: inline;" action="/todo/edit/cancel" method="post">
+            <button type="submit">Cancel</button>
+        </form>
+        <% } %>
+
+            <% if (message) { %>
+                <p>
+                    <%= message %>
+                </p>
+                <% } %>
+
+                    <% if (todoArray && todoArray.length> 0) { %>
+                        <% todoArray.forEach((element, index)=> { %>
+                            <p>
+                                <strong>
+                                    <%= element.title %>
+                                </strong>: <%= element.text %>
+                                    <form action="/todo/edit/<%= index %>" method="post" style="display: inline;">
+                                        <button type="submit">Edit</button>
+                                    </form>
+                                    <form action="/todo/delete/<%= index %>" method="post" style="display: inline;">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                            </p>
+                            <% }); %>
+                                <% } else { %>
+                                    <p>There's currently no todo!</p>
+                                    <% } %>
+
+</body>
+
+</html>
